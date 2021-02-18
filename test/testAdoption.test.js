@@ -2,7 +2,7 @@ const Adoption = artifacts.require("Adoption");
 
 contract("Adoption", (accounts) => {
  let adoption;
- let expectedPetId;
+//  let expectedPetId;
 
  before(async () => {
      adoption = await Adoption.deployed();
@@ -20,5 +20,11 @@ contract("Adoption", (accounts) => {
       // trufle imports chai so we can use assertations
       assert.equal(adopter, expectedAdopter, "The owner of the adopted pet should be the first account.")
     })
+
+    it("can fetch the collection of all pet owners' addresses", async () => {
+      const adopters = await adoption.getAdopters();
+      console.log(adopters)
+      assert.equal(adopters[8], expectedAdopter, "The owner of the adopted pet should be in the collection.");
+     });
  });
 });
