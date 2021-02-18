@@ -18,6 +18,8 @@ contract Adoption {
     // we have to specify the return type even though the array had already been declared
     // the view keyword ensures that the operation does not modify the state of the contract
     return adopters;
+
+    // after compileing the SC we need to migrate, by adding a file to the migrations directory
   }
 
 }
