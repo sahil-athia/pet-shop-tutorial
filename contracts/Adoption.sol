@@ -15,7 +15,9 @@ contract Adoption {
   }
 
   function getAdopters() public view returns (address[16] memory) {
+    // we have to specify the return type even though the array had already been declared
+    // the view keyword ensures that the operation does not modify the state of the contract
     return adopters;
   }
-  
+
 }
