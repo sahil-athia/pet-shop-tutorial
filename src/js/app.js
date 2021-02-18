@@ -76,6 +76,7 @@ App = {
     App.contracts.Adoption.deployed().then(function(instance) {
       adoptionInstance = instance;
     
+      // call lets us read data from the block chain
       return adoptionInstance.getAdopters.call();
     }).then(function(adopters) {
       for (let i = 0; i < adopters.length; i++) {
@@ -91,11 +92,28 @@ App = {
   handleAdopt: function(event) {
     event.preventDefault();
 
-    var petId = parseInt($(event.target).data('id'));
+    const petId = parseInt($(event.target).data('id'));
 
-    /*
-     * Replace me...
-     */
+    let adoptionInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+    
+      var account = accounts[0];
+    
+      App.contracts.Adoption.deployed().then(function(instance) {
+        adoptionInstance = instance;
+      
+        // Execute adopt as a transaction by sending account
+        return adoptionInstance.adopt(petId, {from: account});
+      }).then(function(result) {
+        return App.markAdopted();
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
   }
 
 };
